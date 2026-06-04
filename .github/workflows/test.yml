@@ -1,0 +1,51 @@
+name: Test
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - run: pnpm install --build-from-source
+
+      - run: pnpm typecheck
+
+      - run: pnpm test
+
+  privacy-audit:
+    name: Privacy constraint check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for forbidden patterns
+        run: |
+          echo "Scanning for forbidden data collection patterns..."
+          FORBIDDEN=("readFile" "clipboard" "screenshot" "microphone" "camera" "geolocation" "document.cookie" "localStorage")
+          FOUND=0
+          for pattern in "${FORBIDDEN[@]}"; do
+            if grep -r "$pattern" src/ --include="*.ts" 2>/dev/null; then
+              echo "❌ FORBIDDEN: $pattern"
+              FOUND=1
+            fi
+          done
+          if [ $FOUND -eq 1 ]; then
+            echo "Privacy check FAILED"
+            exit 1
+          fi
+          echo "✅ Privacy check passed"
