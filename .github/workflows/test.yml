@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Rebuild better-sqlite3
+      - name: Rebuild better-sqlite3 for CI environment
         run: pnpm rebuild better-sqlite3
 
       - name: Type check
