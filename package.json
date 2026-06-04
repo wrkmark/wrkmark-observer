@@ -1,0 +1,46 @@
+{
+  "name": "@wrkmark-hq/observer",
+  "version": "0.1.0",
+  "description": "Open-source behavioral observation engine for Wrkmark",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "mirror",
+    "behavioral-verification",
+    "privacy",
+    "open-source"
+  ],
+  "author": "Wrkmark (wrkmark.com)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wrkmark/wrkmark-observer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wrkmark/wrkmark-observer/issues"
+  },
+  "homepage": "https://wrkmark.com",
+  "dependencies": {
+    "better-sqlite3": "^12.10.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "vitest": "^4.1.8"
+  }
+}
