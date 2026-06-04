@@ -1,0 +1,11 @@
+# Wrkmark Observer — Code Owners
+# Every PR touching these files requires founder approval
+
+# Privacy-critical files — must review every single change
+AGENTS.md                    @AxaySharma
+WHAT_WE_SEE.md               @AxaySharma
+src/processor/anonymizer.ts  @AxaySharma
+src/privacy/                 @AxaySharma
+
+# Everything else
+*                            @AxaySharma
