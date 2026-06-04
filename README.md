@@ -2,8 +2,8 @@
   <h1>wrkmark-observer</h1>
   <p><strong>Open-source behavioral observation engine for Wrkmark</strong></p>
   <p>
-    <a href="https://github.com/wrkmark-hq/wrkmark-observer/actions">
-      <img src="https://github.com/wrkmark-hq/wrkmark-observer/actions/workflows/test.yml/badge.svg" alt="Tests">
+    <a href="https://github.com/wrkmark/wrkmark-observer/actions">
+      <img src="https://github.com/wrkmark/wrkmark-observer/actions/workflows/test.yml/badge.svg" alt="Tests">
     </a>
     <a href="LICENSE">
       <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License">
@@ -44,7 +44,7 @@ personal app activity, microphone, camera, or screenshots.
 ## Run the tests yourself
 
 ```bash
-git clone https://github.com/wrkmark-hq/wrkmark-observer
+git clone https://github.com/wrkmark/wrkmark-observer
 cd wrkmark-observer
 pnpm install
 pnpm test
