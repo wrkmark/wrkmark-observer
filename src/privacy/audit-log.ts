@@ -125,7 +125,7 @@ export class AuditLog {
    * This can be called by the user from the Privacy Dashboard to prove
    * that no historical records have been modified.
    */
-  verifyChain(): { valid: boolean; broken_at?: number; total_records: number } {
+  verifyChain(): { valid: boolean; broken_at: number | undefined; total_records: number } {
     const rows = this.db.prepare(`
       SELECT * FROM audit_log ORDER BY id ASC
     `).all() as AuditEntry[]
@@ -133,7 +133,7 @@ export class AuditLog {
     let prevHash: string | null = null
 
     for (const row of rows) {
-      const content = [
+      const content: string = [
         row.timestamp,
         row.event_type,
         row.app_name,
@@ -143,8 +143,7 @@ export class AuditLog {
         row.details,
         prevHash,
       ].join('|')
-
-      const expectedHash = createHash('sha256').update(content).digest('hex')
+      const expectedHash: string = createHash('sha256').update(content).digest('hex')
 
       if (expectedHash !== row.record_hash) {
         return { valid: false, broken_at: row.id, total_records: rows.length }
@@ -153,7 +152,7 @@ export class AuditLog {
       prevHash = row.record_hash
     }
 
-    return { valid: true, total_records: rows.length }
+    return { valid: true, broken_at: undefined, total_records: rows.length }
   }
 
   /**
