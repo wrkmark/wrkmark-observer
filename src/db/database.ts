@@ -74,6 +74,7 @@ export interface WrkmarkDb {
     end(sessionId: string, endedAt: number): void;
     getById(sessionId: string): LocalSessionRow | undefined;
     getPending(): LocalSessionRow[];
+    getSince(sinceMs: number): LocalSessionRow[];
   };
   features: {
     insert(vector: FeatureVector): void;
@@ -147,6 +148,7 @@ export function createDatabase(path: string): WrkmarkDb {
   let getPendingSessionsStmt: Database.Statement;
   let insertFeatureStmt: Database.Statement;
   let getPendingFeaturesStmt: Database.Statement;
+  let getSessionsSinceStmt: Database.Statement;
 
   try {
     insertSignalStmt = db.prepare(`
@@ -181,6 +183,12 @@ export function createDatabase(path: string): WrkmarkDb {
       SELECT id, app_name, started_at, ended_at, signal_count, features_extracted, synced_to_server
       FROM local_sessions
       WHERE synced_to_server = 0
+    `);
+
+    getSessionsSinceStmt = db.prepare(`
+      SELECT id, app_name, started_at, ended_at, signal_count, features_extracted, synced_to_server
+      FROM local_sessions
+      WHERE started_at >= ?
     `);
 
     insertFeatureStmt = db.prepare(`
@@ -370,6 +378,25 @@ export function createDatabase(path: string): WrkmarkDb {
             `Failed to fetch pending sessions: ${(err as Error).message}`,
             'DB_WRITE_FAILED',
             { error: String(err) }
+          );
+        }
+      },
+
+      /**
+       * Retrieves all session records started since a given timestamp.
+       * 
+       * @param sinceMs - The Unix timestamp in milliseconds.
+       * @returns Array of sessions started since the timestamp.
+       * @throws WrkmarkObserverError if the query fails.
+       */
+      getSince(sinceMs: number): LocalSessionRow[] {
+        try {
+          return getSessionsSinceStmt.all(sinceMs) as LocalSessionRow[];
+        } catch (err) {
+          throw new WrkmarkObserverError(
+            `Failed to fetch sessions since "${sinceMs}": ${(err as Error).message}`,
+            'DB_WRITE_FAILED',
+            { sinceMs, error: String(err) }
           );
         }
       }
