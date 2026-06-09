@@ -6,32 +6,47 @@ on:
   pull_request:
     branches: [main, develop]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   test:
     name: Run tests
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v4
         with:
           version: 9
 
-      - run: pnpm install --build-from-source
+      - uses: actions/setup-node@v4.4.0
+        with:
+          node-version: '22'
+          cache: 'pnpm'
 
-      - run: pnpm typecheck
+      - name: Install system dependencies for better-sqlite3
+        run: sudo apt-get install -y python3 make g++
 
-      - run: pnpm test
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Rebuild better-sqlite3 for CI environment
+        run: pnpm rebuild better-sqlite3
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Run tests
+        run: pnpm test
 
   privacy-audit:
     name: Privacy constraint check
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
       - name: Check for forbidden patterns
         run: |
