@@ -1,0 +1,16 @@
+{
+  "name": "@wrkmark/chrome-extension",
+  "version": "0.1.0",
+  "description": "Chrome extension for Wrkmark Observer",
+  "type": "module",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit --project tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.300",
+    "typescript": "~5.4.5",
+    "vitest": "^4.1.8"
+  }
+}
