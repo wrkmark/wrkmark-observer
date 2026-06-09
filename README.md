@@ -41,6 +41,42 @@ personal app activity, microphone, camera, or screenshots.
 4. **Tamper-evident audit log** — every observation creates a hash-chained record
 5. **Open source** — you are reading the enforcement code right now
 
+## Quick Start
+
+```typescript
+import { createObserver } from '@wrkmark/observer'
+
+// Wire everything up in one call
+const { sessionManager, collector } = createObserver('./wrkmark.db')
+
+// Start observing a VS Code session
+sessionManager.startSession('VS Code')
+collector.start(sessionManager)
+
+// Your IPC bridge calls these as VS Code fires events:
+// collector.onKeystroke(Date.now())
+// collector.onUndo(Date.now())
+// collector.onFileSwitch(Date.now())
+
+// When the session ends
+const completed = sessionManager.endSession()
+console.log(`Session: ${completed.duration_ms / 60000} minutes`)
+```
+
+## Individual Imports
+
+```typescript
+import {
+  createDatabase,
+  AuditLog,
+  SignalAnonymizer,
+  SignalExtractor,
+  SessionManager,
+  VSCodeCollector,
+  WrkmarkObserverError
+} from '@wrkmark/observer'
+```
+
 ## Run the tests yourself
 
 ```bash
