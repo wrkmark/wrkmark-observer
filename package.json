@@ -37,10 +37,10 @@
   },
   "homepage": "https://wrkmark.com",
   "dependencies": {
+    "@types/better-sqlite3": "^7.6.13",
     "better-sqlite3": "^12.10.0"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
     "typescript": "~5.4.5",
     "vitest": "^4.1.8"
   }
