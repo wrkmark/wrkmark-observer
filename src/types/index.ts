@@ -1,3 +1,5 @@
+import type { SessionManager } from '../session-manager.js';
+
 /**
  * Core types for wrkmark-observer.
  * These are the only data shapes that flow through the system.
@@ -173,3 +175,12 @@ export type ObserverErrorCode =
   | 'COLLECTOR_INIT_FAILED'
   | 'SESSION_ALREADY_ACTIVE'
   | 'NO_ACTIVE_SESSION'
+
+// ─── Collectors ──────────────────────────────────────────────────────────
+
+export interface ICollector {
+  readonly name: string;
+  start(sessionManager: SessionManager): void;
+  stop(): void;
+  isRunning(): boolean;
+}
