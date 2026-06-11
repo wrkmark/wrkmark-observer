@@ -38,6 +38,7 @@ export { VSCodeCollector } from './collectors/vscode.js';
 export const VERSION = '0.1.0';
 
 import { createDatabase as internalCreateDatabase } from './db/database.js';
+import type { WrkmarkDb } from './db/database.js';
 import { AuditLog as InternalAuditLog } from './privacy/audit-log.js';
 import { SignalAnonymizer as InternalSignalAnonymizer } from './processor/anonymizer.js';
 import { SignalExtractor as InternalSignalExtractor } from './processor/signal-extractor.js';
@@ -59,6 +60,7 @@ export function createObserver(dbPath: string): {
   sessionManager: InternalSessionManager;
   collector: InternalVSCodeCollector;
   auditLog: InternalAuditLog;
+  db: WrkmarkDb;
   version: string;
 } {
   const db = internalCreateDatabase(dbPath);
@@ -77,6 +79,7 @@ export function createObserver(dbPath: string): {
     sessionManager,
     collector,
     auditLog,
+    db,
     version: VERSION,
   };
 }
