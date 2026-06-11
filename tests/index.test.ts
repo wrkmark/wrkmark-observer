@@ -31,6 +31,7 @@ describe('index.ts — Public API and Bootstrap Integration', () => {
     expect(observer.sessionManager).toBeDefined();
     expect(observer.collector).toBeDefined();
     expect(observer.auditLog).toBeDefined();
+    expect(observer.db).toBeDefined();
     expect(observer.version).toBe('0.1.0');
   });
 
